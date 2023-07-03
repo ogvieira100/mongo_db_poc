@@ -1,0 +1,7 @@
+
+recriar imagem 
+docker build --rm -t ogvieira/mongo_api_poc:latest .
+
+criar container
+docker run -p 44382:80 --network db-local --name=mongo-api-poc --hostname=mongo-api-poc -d ogvieira/mongo_api_poc:latest
+

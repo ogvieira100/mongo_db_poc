@@ -1,0 +1,660 @@
+osmargv100 	PWbPja
+
+api key
+
+tZeNdOKFZSeeXvri6QDVkQ6NWZdlNaIcHwuUV4rBC5iGbNVeU7GUiSCwabDTTgGH
+
+
+
+no cluster crie um database-user 
+
+https://cloud.mongodb.com/ -> tudo de bom para mondo for production e web para cloud e nuvem 
+
+o mongo pode ser instalado via docker 
+
+https://marketplace.visualstudio.com/items?itemName=mongodb.mongodb-vscode -> extensão oficial para vs code da mongo 
+
+conecte a ela no cluster 
+
+para se conectar pode usar o mongo compass 
+
+https://www.mongodb.com/docs/compass/master/install/
+
+utilizando vs code 
+
+mongodb+srv://app:<password>@cluster0.sy4e2a7.mongodb.net/
+
+
+mongodb+srv://app:app@cluster0.sy4e2a7.mongodb.net/
+
+
+Via mongo db atlas  entrando na aba collection
+
+https://cloud.mongodb.com/v2/647cf1a28f8b02331126544d#/metrics/replicaSet/647cf2621f5b8648ef8d9a69/explorer/sample_mflix/comments/find
+
+Utilizando o compass 
+
+https://www.mongodb.com/products/compass
+
+https://www.mongodb.com/try/download/compass
+
+o compass é um bom gerenciador de banco 
+
+pode ser gerenciado pelo proprio cloud mongo 
+
+https://cloud.mongodb.com/
+
+é interessante ter o cli ou o mongo shell 
+
+https://www.mongodb.com/try/download/shell
+
+faça download do arquivo e coloque o caminho da pasta bin nas variaveis de ambiente 
+
+variaveis de sistema path D:\Projetos\mongosh-1.9.1-win32-x64\mongosh-1.9.1-win32-x64\bin
+
+aponte para testar mongosh --version 
+
+para se conectar 
+
+mongosh mongodb+srv://app:app@cluster0.sy4e2a7.mongodb.net/
+
+aqui https://www.mongodb.com/docs/mongodb-shell/crud/ da pra ter uma boa idéia de como consultar inserir e deletar
+
+todas as outras operações de agregação e tratamento são feitas na aplicação 
+
+
+https://www.mongodb.com/docs/ aqui se acha tudo 
+
+
+
+https://www.mongodb.com/docs/mongodb-shell/reference/methods/
+
+métodos interessantes do mongo shell 
+
+vamos fazer um insert
+
+const database = 'mercadocar';
+const collection = 'products';
+
+// Create a new database.
+use(database);
+
+// Create a new collection.
+db.createCollection(collection);
+
+no seguinte comando vai criar um db e uma collection 
+
+
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('mercadocar');
+
+// Create a new document in the collection.
+db.getCollection('products').insertOne({
+
+    name:'caixa',
+    price:1000
+
+});
+
+esse comando inseri um registro na collection com as colunas definidas 
+
+flexivel e facil 
+
+
+// MongoDB Playground
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+
+// The current database to use.
+use('mercadocar');
+
+// Create a new document in the collection.
+db.getCollection('products').insertMany(
+    [
+        {
+
+            name:'caixa',
+            price:1000
+        
+        },
+        {
+
+            name:'caixa2',
+            price:1500
+        
+        },
+        {
+
+            name:'caixa3',
+            price:7500
+        
+        }
+    ]
+    );
+
+vc pode inserir um conjunto de documentos teoricamente os documentos não 
+precisam ter o mesmo atributo 
+
+
+com esse simples comando 
+
+
+/* global use, db */
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+// The result of the last command run in a playground is shown on the results panel.
+// By default the first 20 documents will be returned with a cursor.
+// Use 'console.log()' to print to the debug output.
+// For more documentation on playgrounds please refer to
+// https://www.mongodb.com/docs/mongodb-vscode/playgrounds/
+
+// Select the database to use.
+use('sample_mflix');
+
+
+db.comments.find( {date: { $gt:new Date('1950-01-01')} } )
+// Insert a few documents into the sales collection.
+
+é possivel fazer um select no playground do visual code 
+
+https://www.mongodb.com/docs/manual/reference/method/
+
+aqui da pra ver muita coisa 
+
+db.collection.find( { qty: { $gt: 4 } } )
+
+maior igual e por ai vai 
+
+busca encadeada
+
+db.collection.find( { qty.id: { $gt: 4 } } )
+
+
+para dar update
+
+/* global use, db */
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+// The result of the last command run in a playground is shown on the results panel.
+// By default the first 20 documents will be returned with a cursor.
+// Use 'console.log()' to print to the debug output.
+// For more documentation on playgrounds please refer to
+// https://www.mongodb.com/docs/mongodb-vscode/playgrounds/
+
+// Select the database to use.
+use('sample_mflix');
+
+db.comments.find()
+//db.comments.find( {date: { $gt:new Date('1950-01-01')} } )
+// Insert a few documents into the sales collection.
+
+db.comments.updateOne(
+{
+    
+    find: UUID("5a9427648b0beebeb69579e7")}
+    
+,{
+
+    "$set": {
+        name:'Mercedes Tyler Dolores Gap'
+    }
+
+        
+})
+
+// Select the database to use.
+
+para deletar 
+
+use('sample_mflix');
+
+
+db.comments.deleteOne({name:'Mercedes Tyler Dolores'})
+
+indices 
+
+indice a partir de 1 ou superior 
+
+db.clientes.createIndex({'nome':1})
+
+indice decrescente
+
+db.clientes.createIndex({'nome': -1})
+
+indice composto 
+db.clientes.createIndex({'nome':1, 'uf':1})
+
+indice serve para performance nas consultas 
+
+db.contador.getIndexes();
+
+o indice textual se refere a consultas que podem ignorar mauisculas, acentuação, etc..
+
+só pode haver um por coleção vc pode escolher por coluna:. 
+
+
+db.books.insertMany([
+    {
+        name:'A volta dos que não foram',
+        writer:'José vinicius'
+
+    },
+    {
+        name:'volta ao mundo em 180 dias',
+        writer:'José plot'
+
+    },    
+    {
+    
+        name:'Escreveu não leu o pau comeu',
+        writer:'Maria Aquino'
+
+    },
+    {
+        name:'Squash',
+        writer:'Birolu'
+
+    }
+
+])
+
+dropar indice
+
+db.books.dropIndex('name_text')
+
+obtendo todos os indices 
+
+db.books.getIndexes()
+
+db.books.createIndex(
+    { name:'text'}
+    ,{default_language:'portuguese'}
+    )
+
+ ou colocar em todas as colunas 
+
+ db.books.createIndex(
+    { "$**":'text'}
+    ,{default_language:'portuguese'}
+    )   
+
+para consultar -> db.books.find({$text:{$search:'mundo'}})
+
+datas no mongo sempre o formato UTC 
+
+indices 
+https://www.mongodb.com/docs/manual/indexes/
+
+Agregações 
+
+
+use('sample_mflix');
+
+// Insert a few documents into the sales collection.
+db.books.count()
+
+simples contador 
+
+é possivel passar todas regras de filtro
+db.books.count({item:''})
+
+db.books.distinct() -> não retorno os iguais 
+
+db.books.distinct('item':{status:'D'})
+
+vamos dockerizar nossa aplicação de pock
+
+primeiro vamos criar a imagem da api
+
+com o docker file que tem que estar acima das pastas do projeto 
+
+ex:. D:\Projetos\mongodb\api\sln_mongo_api
+
+docker file 
+
+#See https://aka.ms/customizecontainer to learn how to customize your debug container and how Visual Studio uses this Dockerfile to build your images for faster debugging.
+
+
+primeiro vamos baixar o docker sql 
+
+docker pull mcr.microsoft.com/mssql/server:2022-latest
+
+criar a rede 
+
+docker network create -d bridge db-local
+
+depois temos que criar nosso container 
+
+docker run -e 'ACCEPT_EULA=Y' -e 'SA_PASSWORD=Ann@julia2010' -p 1401:1433 -v sqlvolume:/var/opt/mssql  -d --name=sql_linux --network db-local  mcr.microsoft.com/mssql/server:2022-latest
+
+com volume etc..
+
+depois vamos ao Docker file 
+
+FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS base
+WORKDIR /app -> diretorio da api 
+EXPOSE 80
+EXPOSE 443
+
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+WORKDIR /src
+COPY ["./mongo_api/mongo_api.csproj", "mongo_api/"] -> do diretorio do projeto para o diretorio do container 
+RUN dotnet restore "mongo_api/mongo_api.csproj" -> executado no container 
+COPY . . -> copia tudo de tudo
+WORKDIR "/src/mongo_api"
+RUN dotnet build "mongo_api.csproj" -c Release -o /app/build -> roda um comando e coloca dentro da pasta /app/build do container 
+
+FROM build AS publish
+RUN dotnet publish "mongo_api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "mongo_api.dll", "--environment=DockerDev"]
+
+depois de criar o docker file crie um environment para o docker de dev ->"--environment=DockerDev"
+
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=sql_linux;Initial Catalog=mongo_db;User ID=sa;Password=Ann@julia2010",-> apontando para o banco do container lembrando que tem que estar tudo na mesma rede 
+    "MongoDb": "mongodb+srv://app:app@cluster0.sy4e2a7.mongodb.net/"
+  },
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  }
+}
+
+no diretorio da imagem rode o commando
+
+docker build --rm -t ogvieira/mongo_api_poc:latest . -> tag latest -> ultima versao -rm remove imagem residual -t cria imagem 
+
+depois de criado a imagem vamos criar o container 
+
+/**?*/
+
+docker run -p 5000:80 -p 5001:443 --network db-local --name=mongo-api-poc --hostname=mongo-api-poc -d  
+-e ASPNETCORE_HTTP_PORT=https://+:5001 -e ASPNETCORE_URLS=http://+:5000 ogvieira/mongo_api_poc:latest
+
+/*forma mais simples não esqueça os settings Develop Etc..*/
+docker run -p 44382:80 --network db-local --name=mongo-api-poc --hostname=mongo-api-poc -d ogvieira/mongo_api_poc:latest
+
+
+http://localhost:44382/swagger/index.html
+
+
+criar coleções 
+
+
+db.createCollection("students", {
+   validator: {
+      $jsonSchema: {
+         bsonType: "object",
+         required: [ "name", "year", "major", "address" ],
+         properties: {
+            name: {
+               bsonType: "string",
+               description: "must be a string and is required"
+            },
+            year: {
+               bsonType: "int",
+               minimum: 2017,
+               maximum: 3017,
+               description: "must be an integer in [ 2017, 3017 ] and is required"
+            },
+            major: {
+               enum: [ "Math", "English", "Computer Science", "History", null ],
+               description: "can only be one of the enum values and is required"
+            },
+            gpa: {
+               bsonType: [ "double" ],
+               description: "must be a double if the field exists"
+            },
+            address: {
+               bsonType: "object",
+               required: [ "city" ],
+               properties: {
+                  street: {
+                     bsonType: "string",
+                     description: "must be a string if the field exists"
+                  },
+                  city: {
+                     bsonType: "string",
+                     description: "must be a string and is required"
+                  }
+               }
+            }
+         }
+      }
+   }
+})
+
+
+
+/* global use, db */
+// MongoDB Playground
+// To disable this template go to Settings | MongoDB | Use Default Template For Playground.
+// Make sure you are connected to enable completions and to be able to run a playground.
+// Use Ctrl+Space inside a snippet or a string literal to trigger completions.
+// The result of the last command run in a playground is shown on the results panel.
+// By default the first 20 documents will be returned with a cursor.
+// Use 'console.log()' to print to the debug output.
+// For more documentation on playgrounds please refer to
+// https://www.mongodb.com/docs/mongodb-vscode/playgrounds/
+
+// Select the database to use.
+
+
+use('mongo_poc');
+
+
+
+
+
+
+db.createCollection('clientes',{
+        validator:{
+            $jsonSchema:
+            {
+                    bsonType: 'object',
+                    required: ['cpf','nome'],
+                    properties:{
+
+                        cpf:{
+
+                            bsonType: 'string',
+                            description: 'CPF da pessoa fisica com 11 digitos sem ponto'
+                        },
+                        nome:{
+
+                            bsonType: 'string',
+                            description: ' nome da pessoa'
+
+                        },
+                        enderecos:{
+                            bsonType:'array',
+                            required:['logradouro','clienteid','estado'],
+                            properties:{
+                                    logradouro:{
+                                        bsonType:'string',
+                                        description:'endereço do cliente'
+
+                                    },
+                                    clienteid:
+                                    {
+                                            bsonType:'objectId',
+                                            description:'código do cliente'
+
+                                    },
+                                    estado:{
+                                        enum: [ 1, 2, 3 ],
+                                        description:'estado do endereço'
+                                    }
+
+                            }
+                        }
+                    }
+
+            }
+        }
+
+})
+
+
+
+
+
+
+
+/*tabelas */
+
+
+
+use('mongo_poc');
+
+
+
+db.createCollection('endereco',{
+    validator:{
+        $jsonSchema:
+        {
+                bsonType: 'object',
+                required:['logradouro','estado','relationalId'],
+                properties:{
+
+
+                    clienteRelationalId:{
+
+                        bsonType:'string',
+                        description:'código relacional  do cliente'
+                    }, 
+
+                    logradouro:{
+                        bsonType:'string',
+                        description:'endereço do cliente'
+
+                    },
+                    
+                    estado:{
+                        enum: [ 1, 2, 3 ],
+                        description:'estado do endereço'
+                    },
+                    relationalId:{
+
+                        bsonType:'string',
+                        description:'Id da tabela endereco'
+                    },
+                    cliente:{
+                        bsonType:'object',
+                        required:['cpf','nome','relationalId'],
+                        properties:{
+                            cpf:{
+
+                                bsonType: 'string',
+                                description: 'CPF da pessoa fisica com 11 digitos sem ponto'
+                            },
+                            nome:{
+    
+                                bsonType: 'string',
+                                description: ' nome da pessoa'
+    
+                            },
+                            relationalId:{
+    
+                                bsonType:'string',
+                                description:'Id da tabela cliente relacional'
+                            }
+                        }
+                    }
+                }
+
+        }
+    }
+
+});
+
+
+db.createCollection('clientes',{
+        validator:{
+            $jsonSchema:
+            {
+                    bsonType: 'object',
+                    required: ['cpf','nome','relationalId'],
+                    properties:{
+
+                        cpf:{
+
+                            bsonType: 'string',
+                            description: 'CPF da pessoa fisica com 11 digitos sem ponto'
+                        },
+                        nome:{
+
+                            bsonType: 'string',
+                            description: ' nome da pessoa'
+
+                        },
+                        relationalId:{
+
+                            bsonType:'string',
+                            description:'Id da tabela cliente relacional'
+                        },
+                        enderecos:{
+                            bsonType:'array',
+                            required:['logradouro','estado','relationalId'],
+                            properties:{
+                                    logradouro:{
+                                        bsonType:'string',
+                                        description:'endereço do cliente'
+
+                                    },
+                                    
+                                    estado:{
+                                        enum: [ 1, 2, 3 ],
+                                        description:'estado do endereço'
+                                    },
+                                    relationalId:{
+
+                                        bsonType:'string',
+                                        description:'Id da tabela endereco'
+                                    }
+
+                            }
+                        }
+                    }
+
+            }
+        }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
