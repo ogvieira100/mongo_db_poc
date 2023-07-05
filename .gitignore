@@ -291,3 +291,4 @@ testem.log
 .DS_Store
 Thumbs.db
 
+/api/sln_mongo_api/mongo_api/appsettings.Development.json
