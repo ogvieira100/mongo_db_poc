@@ -19,6 +19,9 @@ namespace mongo_api.Data.Mapping
             builder.Property(e => e.Nome)
                .HasColumnName("Nome")
                .HasMaxLength(200);
+
+            builder.ToTable("Cliente");
+
         }
     }
 }

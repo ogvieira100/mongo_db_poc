@@ -26,6 +26,8 @@ namespace mongo_api.Data.Mapping
             builder.HasOne(x => x.Cliente)
                   .WithMany(x => x.Enderecos)
                   .HasForeignKey(x => x.ClienteId);
+
+            builder.ToTable("Endereco");
                   
         }
     }

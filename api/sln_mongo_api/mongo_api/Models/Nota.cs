@@ -1,9 +1,41 @@
-﻿namespace mongo_api.Models
+﻿using mongo_api.Models.Cliente;
+
+namespace mongo_api.Models
 {
+
+    public class NotaMongo : BaseMongo
+    {
+
+        public string FornecedorId { get; set; }
+        public FornecedorMongo Fornecedor { get; set; }
+        public string ClienteId { get; set; }
+        public ClientesMongo Cliente { get; set; }
+        public List<NotaItensMongo> NotaItens { get; set; } 
+        public string Observation { get; set; }
+        public string Numero { get; set; }
+
+        public NotaMongo()
+        {
+            NotaItens = new List<NotaItensMongo>();
+        }
+    }
+
+   
     public class Nota:Base
     {
 
-        public int MyProperty { get; set; }
+        public virtual Guid ClienteId { get; set; }
+        public virtual mongo_api.Models.Cliente.Clientes Cliente { get; set; }
+        public virtual Guid FornecedorId { get; set; }
+        public virtual Fornecedor Fornecedor { get; set; }
+        public virtual IEnumerable<NotaItens> NotaItens { get; set; }
+        public string Observation { get; set; }
+        public string Numero { get; set; }
+
+        public Nota()
+        {
+            NotaItens = new List<NotaItens>();
+        }
 
     }
 }
