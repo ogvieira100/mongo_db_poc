@@ -11,6 +11,11 @@
         public decimal Price { get; set; }
         public string PedidoId { get; set; }
         public  PedidoMongo Pedido { get; set; }
+
+        public PedidoItensMongo()
+        {
+            TableName = "pedidoItens";
+        }
     }
     public class PedidoItens:Base
     {

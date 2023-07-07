@@ -5,6 +5,11 @@
     {
         public string Descricao { get; set; }
 
+        public ProdutoMongo()
+        {
+            TableName = "produto";
+        }
+
     }
     public class Produto:Base
     {
@@ -12,9 +17,12 @@
 
         public virtual IEnumerable<PedidoItens> PedidoItens { get; set; }
 
+        public virtual IEnumerable<NotaItens> NotaItens { get; set; }
+
         public Produto()
         {
-            PedidoItens = new List<PedidoItens>();  
+            NotaItens = new List<NotaItens>();
+            PedidoItens = new List<PedidoItens>();
         }
 
     }

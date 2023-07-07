@@ -138,11 +138,14 @@ namespace mongo_api.Models.Cliente
         public string CPF { get; set; }
         public string Nome { get; set; }
         public virtual List<Endereco> Enderecos { get; set; }
-        public virtual IEnumerable<NotaItens> Notas { get; set; }
+        public virtual IEnumerable<Nota> Notas { get; set; }
+
+        public virtual IEnumerable<Pedido> Pedidos { get; set; }
         public Clientes()
         {
             Enderecos = new List<Endereco>();
-            Notas = new List<NotaItens>();
+            Notas = new List<Nota>();
+            Pedidos = new List<Pedido>();   
         }
     }
 }

@@ -87,7 +87,16 @@ namespace mongo_api.Data.Context
         {
             modelBuilder.ApplyConfiguration(new EnderecoMapping());
             modelBuilder.ApplyConfiguration(new ClientesMapping());
-            //
+            modelBuilder.ApplyConfiguration(new FornecedorMapping());
+            modelBuilder.ApplyConfiguration(new NotaMapping());
+            modelBuilder.ApplyConfiguration(new NotaItensMapping());
+            modelBuilder.ApplyConfiguration(new PedidosItensMapping());
+            modelBuilder.ApplyConfiguration(new PedidosMapping());
+            modelBuilder.ApplyConfiguration(new ProdutosMapping());
+
+
+
+            //FornecedorMapping
         }
     }
 }

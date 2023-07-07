@@ -57,7 +57,7 @@ namespace mongo_api.Models.Cliente
             enderecoMongo.Estado = item.Estado;
             enderecoMongo.Logradouro = item.Logradouro;
             enderecoMongo.RelationalId = item.Id.ToString();
-            enderecoMongo.ClienteRelationalId = item.Cliente.Id.ToString();
+            enderecoMongo.ClienteId = item.Cliente.Id.ToString();
             if (item.Cliente is not null)
                 enderecoMongo.Cliente = new ClientesMongo
                 {
@@ -111,7 +111,7 @@ namespace mongo_api.Models.Cliente
        
         public string Logradouro { get; set; }
 
-        public string ClienteRelationalId { get; set; }
+        public string ClienteId { get; set; }
 
         public  ClientesMongo Cliente { get; set; }
         public UF Estado { get; set; }

@@ -16,6 +16,7 @@ namespace mongo_api.Models
         public PedidoMongo()
         {
             PedidoItens = new List<PedidoItensMongo>();
+            TableName = "pedido";
         }
 
     }

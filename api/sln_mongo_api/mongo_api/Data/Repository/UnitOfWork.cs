@@ -10,15 +10,12 @@ namespace mongo_api.Data.Repository
     {
 
         readonly AplicationContext _aplicationContext;
-        readonly MongoContext _mongoContext;
-        IMongoCollection<ClientesMongo> _clientesCollection;
-        IMongoCollection<EnderecoMongo> _enderecosCollection;
-        public UnitOfWork(AplicationContext aplicationContext, MongoContext mongoContext)
+
+      
+        public UnitOfWork(AplicationContext aplicationContext)
         {
             _aplicationContext = aplicationContext;
-            _mongoContext = mongoContext;
-            _clientesCollection = _mongoContext.DB.GetCollection<ClientesMongo>("clientes");
-            _enderecosCollection = _mongoContext.DB.GetCollection<EnderecoMongo>("endereco");
+           
         }
 
 

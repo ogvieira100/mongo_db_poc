@@ -11,6 +11,11 @@
         public string NotaId { get; set; }
         public NotaMongo Nota { get; set; }
 
+        public NotaItensMongo()
+        {
+            TableName = "notaItens";
+        }
+
     }
     public class NotaItens:Base
     {

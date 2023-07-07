@@ -5,7 +5,6 @@ namespace mongo_api.Models
 
     public class NotaMongo : BaseMongo
     {
-
         public string FornecedorId { get; set; }
         public FornecedorMongo Fornecedor { get; set; }
         public string ClienteId { get; set; }
@@ -17,6 +16,7 @@ namespace mongo_api.Models
         public NotaMongo()
         {
             NotaItens = new List<NotaItensMongo>();
+            TableName = "nota";
         }
     }
 

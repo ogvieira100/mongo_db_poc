@@ -74,8 +74,12 @@ builder.Services.AddScoped<MongoContext>();
 builder.Services.AddScoped<IClienteQuery, ClienteQuery>();
 builder.Services.AddScoped<IClienteMongoRepository, ClienteMongoRepository>();
 builder.Services.AddScoped<IClientesMongoManage, ClientesMongoManage>();
+builder.Services.AddScoped<IEnderecoMongoMange, EnderecoMongoMange>();
 //IClientesMongoManage
-
+/*
+   readonly IClientesMongoManage _clientesMongoManage;
+        readonly IEnderecoMongoMange _enderecoMongoMange;
+ */
 //MongoContext
 
 //
