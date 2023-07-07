@@ -25,12 +25,12 @@ namespace mongo_api.Data.Context
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
+            var entrys = GetEntrys();
             var ret = await base.SaveChangesAsync(cancellationToken);
-            await SaveChangesMongoAsync(ret);
             return ret;
         }
 
-        private async Task SaveChangesMongoAsync(int ret)
+        List<Tuple<EntityState, Type, object>> GetEntrys()
         {
             List<Tuple<EntityState, Type, object>> entrys = new List<Tuple<EntityState, Type, object>>();
             foreach (var entry in ChangeTracker.Entries())
@@ -40,6 +40,13 @@ namespace mongo_api.Data.Context
                                                                 baseEntry.GetType(),
                                                                 baseEntry));
             }
+
+            return entrys;
+        }
+
+        private async Task SaveChangesMongoAsync(int ret, List<Tuple<EntityState, Type, object>> entrys)
+        {
+           
             if (ret > 0)
             {
 
@@ -66,8 +73,9 @@ namespace mongo_api.Data.Context
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess,
             CancellationToken cancellationToken = default)
         {
+            var entrys = GetEntrys();
             var ret = await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
-            await SaveChangesMongoAsync(ret);
+            await SaveChangesMongoAsync(ret, entrys);
             return ret;
 
         }
