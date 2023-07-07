@@ -17,7 +17,7 @@ namespace mongo_api.Data.Mapping
 
             builder.Property(x => x.Price)
                 .HasColumnName("ValorUnitario")
-                .HasPrecision(10, 20)
+                .HasPrecision(18, 4)
                 ;
 
             builder.HasOne(x => x.Produto)

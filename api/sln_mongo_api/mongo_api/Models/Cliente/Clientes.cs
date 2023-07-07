@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using mongo_api.Data.Context;
 using MongoDB.Driver;
 
 namespace mongo_api.Models.Cliente
@@ -15,10 +16,10 @@ namespace mongo_api.Models.Cliente
     {
         readonly IMongoCollection<ClientesMongo> _clientesCollection;
         readonly IMongoCollection<EnderecoMongo> _enderecoCollection;
-        public ClientesMongoManage(IMongoCollection<ClientesMongo> clientesCollection, IMongoCollection<EnderecoMongo> enderecoCollection)
+        public ClientesMongoManage(MongoContext contextMongo)
         {
-            _clientesCollection = clientesCollection;
-            _enderecoCollection = enderecoCollection;   
+            _clientesCollection = contextMongo.DB.GetCollection<ClientesMongo>(new ClientesMongo().TableName);
+            _enderecoCollection = contextMongo.DB.GetCollection<EnderecoMongo>(new EnderecoMongo().TableName);
         }
 
         public async Task ExecManager(List<Tuple<EntityState, Clientes>> clientes)
