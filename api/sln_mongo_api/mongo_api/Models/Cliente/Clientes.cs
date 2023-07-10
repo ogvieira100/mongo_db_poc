@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using mongo_api.Data.Context;
+using mongo_api.Models.Pedidos;
 using MongoDB.Driver;
 
 namespace mongo_api.Models.Cliente

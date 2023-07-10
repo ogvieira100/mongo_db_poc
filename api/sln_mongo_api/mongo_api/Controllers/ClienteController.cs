@@ -16,7 +16,8 @@ namespace mongo_api.Controllers
         private readonly IMediator _mediator;
         readonly IClienteQuery _clienteQuery;   
 
-        public ClienteController(IMediator mediator, IClienteQuery clienteQuery)
+        public ClienteController(IMediator mediator, 
+                                IClienteQuery clienteQuery)
         {
             _mediator = mediator;
             _clienteQuery = clienteQuery;       

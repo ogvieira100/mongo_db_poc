@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using mongo_api.Models;
+using mongo_api.Models.Produto;
 
 namespace mongo_api.Data.Mapping
 {
-    public class ProdutosMapping : IEntityTypeConfiguration<Produto>
+    public class ProdutosMapping : IEntityTypeConfiguration<Produtos>
     {
-        public void Configure(EntityTypeBuilder<Produto> builder)
+        public void Configure(EntityTypeBuilder<Produtos> builder)
         {
             builder.HasKey(x => x.Id);
 

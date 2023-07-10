@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using mongo_api.Models;
 using mongo_api.Models.Cliente;
+using mongo_api.Models.Fornecedores;
 
 namespace mongo_api.Data.Mapping
 {

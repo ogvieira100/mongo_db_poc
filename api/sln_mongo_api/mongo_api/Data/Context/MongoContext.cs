@@ -1,5 +1,8 @@
 ﻿using mongo_api.Models;
 using mongo_api.Models.Cliente;
+using mongo_api.Models.Fornecedores;
+using mongo_api.Models.Pedidos;
+using mongo_api.Models.Produto;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;

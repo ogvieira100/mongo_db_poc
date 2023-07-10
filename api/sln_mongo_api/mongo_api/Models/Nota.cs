@@ -1,4 +1,5 @@
 ﻿using mongo_api.Models.Cliente;
+using mongo_api.Models.Fornecedores;
 
 namespace mongo_api.Models
 {

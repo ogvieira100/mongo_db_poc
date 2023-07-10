@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using mongo_api.Data.Context;
 using mongo_api.Data.Repository;
 using mongo_api.Models.Cliente;
+using mongo_api.Models.Fornecedores;
+using mongo_api.Models.Pedidos;
+using mongo_api.Models.Produto;
 using MongoDB.Driver.Core.Operations;
 using System.Reflection;
 
@@ -70,11 +73,23 @@ builder.Services.AddDbContext<AplicationContext>(options =>
 builder.Services.AddScoped<AplicationContext>();
 builder.Services.AddScoped<MongoContext>();
 
+//
+builder.Services.AddScoped<IPedidoMongoManage, PedidoMongoManage>();
 
 builder.Services.AddScoped<IClienteQuery, ClienteQuery>();
 builder.Services.AddScoped<IClienteMongoRepository, ClienteMongoRepository>();
 builder.Services.AddScoped<IClientesMongoManage, ClientesMongoManage>();
 builder.Services.AddScoped<IEnderecoMongoMange, EnderecoMongoMange>();
+
+
+builder.Services.AddScoped<IProdutoQuery, ProdutoQuery>();
+builder.Services.AddScoped<IProdutoMongoManage, ProdutoMongoManage>();
+builder.Services.AddScoped<IProdutoMongoRepository, ProdutoMongoRepository>();
+
+builder.Services.AddScoped<IFornecedorMongoManage, FornecedorMongoManage>();
+builder.Services.AddScoped<IFornecedorQuery, FornecedorQuery>();
+builder.Services.AddScoped<IFornecedorMongoRepository, FornecedorMongoRepository>();
+//
 //IClientesMongoManage
 /*
    readonly IClientesMongoManage _clientesMongoManage;

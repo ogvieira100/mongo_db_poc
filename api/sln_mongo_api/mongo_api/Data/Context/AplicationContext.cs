@@ -2,6 +2,9 @@
 using mongo_api.Data.Mapping;
 using mongo_api.Data.Repository;
 using mongo_api.Models.Cliente;
+using mongo_api.Models.Fornecedores;
+using mongo_api.Models.Pedidos;
+using mongo_api.Models.Produto;
 using System.Reflection.Emit;
 
 namespace mongo_api.Data.Context
@@ -12,15 +15,22 @@ namespace mongo_api.Data.Context
 
         readonly IClientesMongoManage _clientesMongoManage;
         readonly IEnderecoMongoMange _enderecoMongoMange;
+        readonly IProdutoMongoManage _produtoMongoManage;
+        readonly IFornecedorMongoManage _fornecedorMongoManage;
+        readonly IPedidoMongoManage _pedidoMongoManage;
         public AplicationContext(DbContextOptions<AplicationContext> options,
             IClientesMongoManage clientesMongoManage,
-
+            IProdutoMongoManage produtoMongoManage,
+            IFornecedorMongoManage fornecedorMongoManage,
+            IPedidoMongoManage pedidoMongoManage,
             IEnderecoMongoMange enderecoMongoMange)
          : base(options)
         {
-
+            _produtoMongoManage = produtoMongoManage;
             _clientesMongoManage = clientesMongoManage;
             _enderecoMongoMange = enderecoMongoMange;
+            _fornecedorMongoManage = fornecedorMongoManage;
+            _pedidoMongoManage = pedidoMongoManage; 
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -40,7 +50,6 @@ namespace mongo_api.Data.Context
                                                                 baseEntry.GetType(),
                                                                 baseEntry));
             }
-
             return entrys;
         }
 
@@ -49,6 +58,27 @@ namespace mongo_api.Data.Context
            
             if (ret > 0)
             {
+
+                #region " Pedidos "
+
+                var tuplePedidos = entrys.Where(x => x.Item2 == typeof(Pedido))
+                              .Select(x => new Tuple<EntityState, Pedido>(x.Item1, (x.Item3 as Pedido)))
+                              .ToList();
+
+                await _pedidoMongoManage.ExecManager(tuplePedidos);
+
+                #endregion
+
+                #region " Produtos "
+
+                var tupleProdutos = entrys.Where(x => x.Item2 == typeof(Produtos))
+                               .Select(x => new Tuple<EntityState, Produtos>(x.Item1, (x.Item3 as Produtos)))
+                               .ToList();
+
+                 await _produtoMongoManage.ExecManager(tupleProdutos);
+
+
+                #endregion
 
                 #region " Clientes "
                 var tupleClientes = entrys.Where(x => x.Item2 == typeof(Clientes))
@@ -61,12 +91,20 @@ namespace mongo_api.Data.Context
 
                 #region " Enderecos "
                 var tupleEnderecos = entrys.Where(x => x.Item2 == typeof(Endereco))
-                                     .Select(x => new Tuple<EntityState, Endereco>(x.Item1, (x.Item3 as Endereco)))
+                                     .Select(x => new Tuple<EntityState,Endereco>(x.Item1, (x.Item3 as Endereco)))
                                      .ToList();
 
                 await _enderecoMongoMange.ExecManager(tupleEnderecos);
                 #endregion
 
+                #region " Fornecedor "
+
+                var tupleFornecedores = entrys.Where(x => x.Item2 == typeof(Fornecedor))
+                             .Select(x => new Tuple<EntityState, Fornecedor>(x.Item1, (x.Item3 as Fornecedor)))
+                             .ToList();
+
+                 await _fornecedorMongoManage.ExecManager(tupleFornecedores);
+                #endregion
             }
         }
 
@@ -101,10 +139,6 @@ namespace mongo_api.Data.Context
             modelBuilder.ApplyConfiguration(new PedidosItensMapping());
             modelBuilder.ApplyConfiguration(new PedidosMapping());
             modelBuilder.ApplyConfiguration(new ProdutosMapping());
-
-
-
-            //FornecedorMapping
         }
     }
 }

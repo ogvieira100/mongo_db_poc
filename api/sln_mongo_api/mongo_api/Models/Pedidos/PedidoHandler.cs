@@ -1,0 +1,84 @@
+﻿using MediatR;
+using mongo_api.Data.Repository;
+using mongo_api.Models.Cliente;
+using mongo_api.Models.Fornecedores;
+using mongo_api.Models.Produto;
+
+namespace mongo_api.Models.Pedidos
+{
+    public class PedidoHandler :
+        IRequestHandler<PedidoInserirCommand, PedidoResponse>,
+        IRequestHandler<PedidoAtualizarCommand,PedidoResponse>,
+        IRequestHandler<PedidoDeletarCommand, PedidoResponse>
+    {
+
+
+        readonly IUnitOfWork _unitOfWork;
+        readonly IClienteQuery _clienteQuery;
+        readonly IProdutoQuery _produtoQuery;
+        readonly IFornecedorQuery _fornedorQuery;
+        readonly IBaseRepository<Fornecedor> _fornecedorRepository;
+        readonly IBaseRepository<Clientes> _clienteRepository;
+        readonly IBaseRepository<Pedido> _pedidoRepository;
+        readonly IBaseRepository<PedidoItens> _pedidoItensRepository;
+
+        public PedidoHandler(IFornecedorQuery fornedorQuery,
+                             IUnitOfWork unitOfWork,
+                             IProdutoQuery produtoQuery,
+                             IBaseRepository<Pedido> pedidoRepository,
+                             IBaseRepository<PedidoItens> pedidoItensRepository, 
+                             IBaseRepository<Clientes> clienteRepository, 
+                             IBaseRepository<Fornecedor> fornecedorRepository,
+                             IClienteQuery clienteQuery)
+        {
+            _unitOfWork = unitOfWork;
+            _clienteQuery = clienteQuery;
+            _fornedorQuery = fornedorQuery;
+            _produtoQuery = produtoQuery;
+            _pedidoRepository = pedidoRepository;
+            _pedidoItensRepository = pedidoItensRepository; 
+            _clienteRepository = clienteRepository; 
+            _fornecedorRepository = fornecedorRepository;
+        }
+        public async Task<PedidoResponse> Handle(PedidoInserirCommand request, CancellationToken cancellationToken)
+        {
+            var resp = new PedidoResponse();
+
+            var cliPedido =   await _clienteQuery.GetCliMongoByRelationId(request.ClienteId.ToString());
+            var fornPedido =   await _fornedorQuery.GetFornecedorMongoByRelationId(request.FornecedorId.ToString());
+            var produtosPedido = await _produtoQuery.GetProdutosMongoByRelationsIds(request.PedidoItensDto.Select(x => x.ProdutoId.ToString()));
+
+            var novoPedido = new Pedido();
+            /*fornecedor*/
+            novoPedido.FornecedorId = new Guid(fornPedido.RelationalId);
+            /*cliente*/
+            novoPedido.ClienteId  = new Guid(cliPedido.RelationalId);
+            /*produtos*/
+
+            foreach (var pedidoItens in request.PedidoItensDto)
+            {
+                var novoPedidoItem = new PedidoItens();
+                novoPedidoItem.Qtd = pedidoItens.Qtd;
+                novoPedidoItem.ProdutoId = new Guid(pedidoItens.ProdutoId.ToString());
+                novoPedidoItem.Price = pedidoItens.Price;
+                await _pedidoItensRepository.AddAsync(novoPedidoItem);
+                novoPedido.PedidoItens.Add(novoPedidoItem);
+            }
+
+            await  _pedidoRepository.AddAsync(novoPedido);
+            await _unitOfWork.CommitAsync();
+            return resp;
+        }
+
+        public Task<PedidoResponse> Handle(PedidoAtualizarCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<PedidoResponse> Handle(PedidoDeletarCommand request, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
+}
