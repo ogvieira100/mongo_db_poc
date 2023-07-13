@@ -204,8 +204,8 @@ namespace CursoMongo.Api.Data.Repositories
         }
     }
 }
- 
  */
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using mongo_api.Data.Context;
 using mongo_api.Models;
@@ -245,9 +245,9 @@ namespace mongo_api.Data.Repository
         => await (await MongoCollectionConsult.FindAsync(x => x.RelationalId == id)).FirstOrDefaultAsync();
 
         public async Task<IEnumerable<TEntity>> SearchAsync(Expression<Func<TEntity, bool>> predicate)
-        => await (await MongoCollectionConsult.FindAsync(predicate)).ToListAsync();
+        => await ( await MongoCollectionConsult.FindAsync(predicate)).ToListAsync();
 
-        public async Task<PagedDataResponse<TEntity>> PaginateAsync(PagedDataRequest pagedDataRequest,
+        public  async  Task<PagedDataResponse<TEntity>> PaginateAsync(PagedDataRequest pagedDataRequest,
                                                                     Expression<Func<TEntity, bool>>? predicate)
         {
             if (predicate is null)
@@ -264,6 +264,7 @@ namespace mongo_api.Data.Repository
             var lists = new List<TEntity>();
 
             var filter = Builders<TEntity>.Filter.Text(text);
+
 
             await MongoCollectionConsult
                 .AsQueryable()

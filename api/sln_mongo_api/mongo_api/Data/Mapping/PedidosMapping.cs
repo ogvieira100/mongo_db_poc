@@ -11,7 +11,10 @@ namespace mongo_api.Data.Mapping
             builder.HasKey(x => x.Id);
 
             builder.Property(x => x.Observation)
-                   .HasColumnName("Observacao");
+                   .HasColumnName("Observacao")
+                   .HasMaxLength(int.MaxValue)
+                   .IsRequired(false)
+                   ;
 
             builder.HasOne(x => x.Cliente)
                 .WithMany(x => x.Pedidos)

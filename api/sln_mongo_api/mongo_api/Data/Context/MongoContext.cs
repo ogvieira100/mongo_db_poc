@@ -38,7 +38,7 @@ namespace mongo_api.Data.Context
                 {
                     cm.AutoMap();
                     cm.SetIsRootClass(true);
-                    cm.AddKnownType(typeof(EnderecoMongo));
+                    //cm.AddKnownType(typeof(EnderecoMongo));
                     cm.GetMemberMap(x => x.Id)
                    .SetIdGenerator(StringObjectIdGenerator.Instance)
                    .SetSerializer(new StringSerializer(BsonType.ObjectId));

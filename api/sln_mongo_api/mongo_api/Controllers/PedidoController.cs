@@ -12,11 +12,41 @@ namespace mongo_api.Controllers
     {
 
         private readonly IMediator _mediator;
-
-        public PedidoController(IMediator mediator)
+        readonly IPedidoQuery _pedidoQuery;
+        public PedidoController(IMediator mediator, IPedidoQuery pedidoQuery)
         {
-            _mediator = mediator;   
+            _mediator = mediator;
+            _pedidoQuery = pedidoQuery; 
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pedidoAtualizarCommand"></param>
+        /// <returns></returns>
+        [HttpPut]
+
+        public async Task<IActionResult> Put([FromBody] PedidoAtualizarCommand pedidoAtualizarCommand)
+        {
+            var resp = await _mediator.Send(pedidoAtualizarCommand);
+            return Ok(resp);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pedidoPagedRequest"></param>
+        /// <returns></returns>
+
+        [HttpGet]
+
+        public async Task<IActionResult> Get([FromQuery] PedidoPagedRequest pedidoPagedRequest)
+        {
+            var resp = await _pedidoQuery.PagedPedidos(pedidoPagedRequest); 
+            return Ok(resp);
+        }
+
 
         /// <summary>
         /// 

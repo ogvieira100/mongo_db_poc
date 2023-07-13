@@ -75,6 +75,10 @@ builder.Services.AddScoped<MongoContext>();
 
 //
 builder.Services.AddScoped<IPedidoMongoManage, PedidoMongoManage>();
+builder.Services.AddScoped<IPedidoMongoRepository, PedidoMongoRepository>();
+builder.Services.AddScoped<IPedidoQuery, PedidoQuery>();
+
+//
 
 builder.Services.AddScoped<IClienteQuery, ClienteQuery>();
 builder.Services.AddScoped<IClienteMongoRepository, ClienteMongoRepository>();

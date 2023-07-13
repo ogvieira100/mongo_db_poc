@@ -16,6 +16,7 @@ namespace mongo_api.Data.Mapping
 
             builder.Property(x => x.Observation)
            .HasColumnName("Observacao")
+           .IsRequired(false)
            .HasMaxLength(int.MaxValue);
 
             builder.HasOne(x => x.Cliente)

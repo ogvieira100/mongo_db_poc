@@ -18,7 +18,7 @@ namespace mongo_api.Data.Repository
 
              BaseConsultRepositoryMongo = baseConsultRepositoryMongo;
             _mongoContext = mongoContext;
-            MongoCollectionPersist = _mongoContext.DB
+             MongoCollectionPersist = _mongoContext.DB
                           .GetCollection<TEntity>(((TEntity)Activator.CreateInstance(typeof(TEntity))).TableName);
             
         }

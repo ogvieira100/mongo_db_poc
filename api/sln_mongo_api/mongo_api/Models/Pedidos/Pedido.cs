@@ -65,7 +65,7 @@ namespace mongo_api.Models.Pedidos
 
 
             var pedidoMongo = new PedidoMongo();
-            pedidoMongo.Observation = item2.Observation;
+            pedidoMongo.Observation = item2.Observation ?? "";
             pedidoMongo.FornecedorId = item2.FornecedorId.ToString();
             pedidoMongo.RelationalId = item2.Id.ToString();
             pedidoMongo.ClienteId = item2.ClienteId.ToString();
@@ -76,12 +76,13 @@ namespace mongo_api.Models.Pedidos
             {
 
                 var prod = produtosPedido.FirstOrDefault(x => x.RelationalId == pedidoItem.ProdutoId.ToString());
-                pedidoMongo.PedidoItens.Add(new PedidoItensMongo {
-                        Price = pedidoItem.Price,
-                        Qtd = pedidoItem.Qtd,
-                        ProdutoId = prod.RelationalId,
-                        RelationalId = pedidoItem.Id.ToString(), 
-                        Produto = prod
+                pedidoMongo.PedidoItens.Add(new PedidoItensMongo
+                {
+                    Price = pedidoItem.Price,
+                    Qtd = pedidoItem.Qtd,
+                    ProdutoId = prod.RelationalId,
+                    RelationalId = pedidoItem.Id.ToString(),
+                    Produto = prod
                 });
             }
 
@@ -124,7 +125,7 @@ namespace mongo_api.Models.Pedidos
         public virtual Guid FornecedorId { get; set; }
         public virtual Fornecedor Fornecedor { get; set; }
         public virtual List<PedidoItens> PedidoItens { get; set; }
-        public string Observation { get; set; }
+        public string? Observation { get; set; }
 
         public Pedido()
         {

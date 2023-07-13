@@ -30,7 +30,7 @@ namespace mongo_api.Models
         public virtual Guid FornecedorId { get; set; }
         public virtual Fornecedor Fornecedor { get; set; }
         public virtual IEnumerable<NotaItens> NotaItens { get; set; }
-        public string Observation { get; set; }
+        public string? Observation { get; set; }
         public string Numero { get; set; }
 
         public Nota()
