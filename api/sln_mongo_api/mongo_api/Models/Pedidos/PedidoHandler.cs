@@ -82,6 +82,7 @@ namespace mongo_api.Models.Pedidos
             var resp = new PedidoResponse();
             var pedidoMongo  =  await _pedidoQuery.GetPedidoUpdateByRelationalId(request.Id.ToString());
 
+            var pedido = new Pedido();  
 
 
 
