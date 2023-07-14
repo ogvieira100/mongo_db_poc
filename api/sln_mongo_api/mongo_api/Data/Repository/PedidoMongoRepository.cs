@@ -19,6 +19,8 @@ namespace mongo_api.Data.Repository
 
         Task<PedidoMongo> GetPedidoUpdateByRelationalId(string relationalId);
 
+        Task UpdatePedidoMongo(PedidoMongo x);
+
         Task<PagedDataResponse<PedidoMongo>> PagedPedidos(PedidoPagedRequest clientePagedRequest);
     }
     public class PedidoMongoRepository : BaseRepositoryMongo<PedidoMongo>, IPedidoMongoRepository
@@ -61,6 +63,12 @@ namespace mongo_api.Data.Repository
 
         async Task UpdateFinalyListMongo(List<PedidoMongo> lstPedidoMongo, PedidoMongo x)
         {
+            await UpdatePedidoMongo(x);
+            lstPedidoMongo.Add(x);
+        }
+
+        public async Task UpdatePedidoMongo(PedidoMongo x)
+        {
             var cliCol = (await _clienteMongoCollection.FindAsync(cli => cli.RelationalId == x.ClienteId))?.FirstOrDefault();
             var fornCol = (await _fornecedorMongoCollection.FindAsync(forn => forn.RelationalId == x.FornecedorId))?.FirstOrDefault();
             if (cliCol is not null)
@@ -78,7 +86,6 @@ namespace mongo_api.Data.Repository
                 if (prodSearch is not null)
                     item.Produto = prodSearch;
             }
-            lstPedidoMongo.Add(x);
         }
 
         async Task GetPedidos(List<PedidoMongo> lstPedidoMongo, 
@@ -87,7 +94,6 @@ namespace mongo_api.Data.Repository
             await col.ForEachAsync(async x =>
             {
                 await UpdateFinalyListMongo(lstPedidoMongo, x);
-
             });
         }
 

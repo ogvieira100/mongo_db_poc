@@ -81,13 +81,37 @@ namespace mongo_api.Models.Pedidos
         {
             var resp = new PedidoResponse();
             var pedidoMongo  =  await _pedidoQuery.GetPedidoUpdateByRelationalId(request.Id.ToString());
+            var pedido = new Pedido();
+            pedido.FornecedorId = new Guid(request.FornecedorId.ToString());
+            pedido.ClienteId = new Guid(request.ClienteId.ToString());
+            pedido.Observation = request.Observation;
+            pedido.Id = request.Id;
 
-            var pedido = new Pedido();  
+            foreach (var pedidoItemRequest in request.PedidoItensDto)
+            {
+                var pedidoItem = new PedidoItens();
+                if (pedidoItemRequest.Id.HasValue)
+                {
+                    pedidoItem.Id = pedidoItemRequest.Id.Value;
+                    var pedidoItemMongo = pedidoMongo.PedidoItens?.FirstOrDefault(x => x.RelationalId == pedidoItem.Id.ToString());
+                    if (pedidoItemMongo is not null)
+                    {
+                         pedidoItem.ProdutoId = new Guid(pedidoItemMongo.ProdutoId);
+                        _pedidoItensRepository.Update(pedidoItem);
+                    }
+                    else
+                        await _pedidoItensRepository.AddAsync(pedidoItem);
+                }
+                else
+                    await _pedidoItensRepository.AddAsync(pedidoItem);
+                pedidoItem.Qtd = pedidoItemRequest.Qtd;
+                pedidoItem.Price = pedidoItemRequest.Price;
+                pedido.PedidoItens.Add(pedidoItem);
+            }
 
-
-
+            _pedidoItensRepository.Update(pedido);
+            await _unitOfWork.CommitAsync();  
             return resp;
-
         }
 
         public Task<PedidoResponse> Handle(PedidoDeletarCommand request, CancellationToken cancellationToken)

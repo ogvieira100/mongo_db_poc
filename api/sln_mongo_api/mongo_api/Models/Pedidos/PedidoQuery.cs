@@ -18,6 +18,7 @@ namespace mongo_api.Models.Pedidos
     {
         readonly IPedidoMongoRepository _pedidoMongoRepository;
 
+        
         public PedidoQuery(IPedidoMongoRepository pedidoMongoRepository)
         {
 

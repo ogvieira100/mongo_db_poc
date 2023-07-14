@@ -4,7 +4,7 @@ namespace mongo_api.Models.Pedidos
 {
     public class PedidoItensDto
     {
-        public Guid Id { get; set; }
+        public Guid? Id { get; set; }
         public int Qtd { get; set; }
         public virtual Guid ProdutoId { get; set; }
         public decimal Price { get; set; }

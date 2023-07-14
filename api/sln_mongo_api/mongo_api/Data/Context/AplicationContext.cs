@@ -5,6 +5,7 @@ using mongo_api.Models.Cliente;
 using mongo_api.Models.Fornecedores;
 using mongo_api.Models.Pedidos;
 using mongo_api.Models.Produto;
+using System.Linq;
 using System.Reflection.Emit;
 
 namespace mongo_api.Data.Context
@@ -58,6 +59,16 @@ namespace mongo_api.Data.Context
            
             if (ret > 0)
             {
+
+                #region " Pedido Itens "
+
+                var tuplePedidosItens = entrys.Where(x => x.Item2 == typeof(PedidoItens))
+                           .Select(x => new Tuple<EntityState, Pedido>(x.Item1, (x.Item3 as PedidoItens)))
+                           .ToList();
+
+                await _pedidoItensMongoManage.ExecManager(tuplePedidosItens);
+
+                #endregion
 
                 #region " Pedidos "
 

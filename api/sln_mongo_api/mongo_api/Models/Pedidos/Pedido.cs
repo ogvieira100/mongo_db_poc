@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using mongo_api.Data.Context;
+using mongo_api.Data.Repository;
 using mongo_api.Models.Cliente;
 using mongo_api.Models.Fornecedores;
 using mongo_api.Models.Produto;
@@ -7,7 +8,8 @@ using MongoDB.Driver;
 
 namespace mongo_api.Models.Pedidos
 {
-    public interface IPedidoMongoManage {
+    public interface IPedidoMongoManage
+    {
 
         Task ExecManager(List<Tuple<EntityState, Pedido>> pedidos);
     }
@@ -20,15 +22,21 @@ namespace mongo_api.Models.Pedidos
         readonly IProdutoQuery _produtoQuery;
         readonly IFornecedorQuery _fornedorQuery;
         readonly IMongoCollection<PedidoMongo> _pedidoCollection;
+        readonly IPedidoQuery _pedidoQuery;
+        readonly IPedidoMongoRepository _pedidoMongoRepository;
 
         public PedidoMongoManage(IFornecedorQuery fornedorQuery,
                                  IClienteQuery clienteQuery,
-                                 MongoContext contextMongo, 
+                                 IPedidoQuery pedidoQuery,
+                                 MongoContext contextMongo,
+                                 IPedidoMongoRepository pedidoMongoRepository,
                                  IProdutoQuery produtoQuery)
         {
             _clienteQuery = clienteQuery;
             _produtoQuery = produtoQuery;
             _fornedorQuery = fornedorQuery;
+            _pedidoQuery = pedidoQuery;
+            _pedidoMongoRepository = pedidoMongoRepository;
             _pedidoCollection = contextMongo.DB.GetCollection<PedidoMongo>(new PedidoMongo().TableName);
         }
 
@@ -70,7 +78,7 @@ namespace mongo_api.Models.Pedidos
             pedidoMongo.RelationalId = item2.Id.ToString();
             pedidoMongo.ClienteId = item2.ClienteId.ToString();
             pedidoMongo.Cliente = clienteMongo;
-            pedidoMongo.Fornecedor = fornMongo; 
+            pedidoMongo.Fornecedor = fornMongo;
 
             foreach (var pedidoItem in item2.PedidoItens)
             {
@@ -89,14 +97,41 @@ namespace mongo_api.Models.Pedidos
             await _pedidoCollection.InsertOneAsync(pedidoMongo);
         }
 
-        private Task UpdateAsync(Pedido item2)
+        private async Task UpdateAsync(Pedido item2)
         {
-            throw new NotImplementedException();
+            var pedidoMongoRepository = await _pedidoMongoRepository.GetPedidoUpdateByRelationalId(item2.Id.ToString());
+           
+            var novoPedidoMongo = new PedidoMongo();
+            novoPedidoMongo.ClienteId = item2.ClienteId.ToString();
+            novoPedidoMongo.FornecedorId = item2.FornecedorId.ToString();
+            novoPedidoMongo.Observation = item2.Observation ?? "";
+            novoPedidoMongo.RelationalId = item2.Id.ToString();
+            foreach (var pedidoItens in item2.PedidoItens)
+            {
+                var novoPedidoItenMongo = new PedidoItensMongo();
+                    novoPedidoItenMongo.Qtd = pedidoItens.Qtd;
+                    novoPedidoItenMongo.ProdutoId = pedidoItens.ProdutoId.ToString();
+                    novoPedidoItenMongo.Price = pedidoItens.Price;
+                    novoPedidoMongo.PedidoItens.Add(novoPedidoItenMongo);
+                novoPedidoItenMongo.RelationalId = pedidoItens.Id.ToString();
+            }
+            var pedidoItensMongo = pedidoMongoRepository
+                                      .PedidoItens
+                                      .Where(x => !item2.PedidoItens.Select(ped => ped.Id.ToString())
+                                      .Contains(x.RelationalId));
+            foreach (var itensMongo in pedidoItensMongo)
+                novoPedidoMongo.PedidoItens.Add(itensMongo);
+
+           
+            await _pedidoMongoRepository.UpdatePedidoMongo(novoPedidoMongo);
+            await DeleteAsync(item2);
+            await _pedidoCollection.InsertOneAsync(novoPedidoMongo);
         }
 
-        private Task DeleteAsync(Pedido item2)
+        private async Task DeleteAsync(Pedido item2)
         {
-            throw new NotImplementedException();
+            var pedidoMongo = await _pedidoQuery.GetPedidoUpdateByRelationalId(item2.Id.ToString());
+            await _pedidoCollection.DeleteOneAsync(x => x.RelationalId == pedidoMongo.Id.ToString());
         }
     }
     public class PedidoMongo : BaseMongo

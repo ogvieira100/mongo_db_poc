@@ -12,10 +12,14 @@ namespace mongo_api.Models.Produto
 
         readonly IUnitOfWork _unitOfWork;
         readonly IBaseRepository<Produtos> _produtoRepository;
+        readonly IProdutoQuery _produtoQuery;
 
-        public ProdutoHandler(IUnitOfWork unitOfWork, IBaseRepository<Produtos> produtoRepository)
+        public ProdutoHandler(IUnitOfWork unitOfWork, 
+            IProdutoQuery produtoQuery,
+            IBaseRepository<Produtos> produtoRepository)
         {
-            _unitOfWork = unitOfWork;   
+            _unitOfWork = unitOfWork;
+            _produtoQuery = produtoQuery;   
             _produtoRepository = produtoRepository; 
         }
         public async Task<ProdutoResponse> Handle(ProdutoInserirCommand request, CancellationToken cancellationToken)
@@ -33,7 +37,14 @@ namespace mongo_api.Models.Produto
         public async Task<ProdutoResponse> Handle(ProdutoAtualizarCommand request, CancellationToken cancellationToken)
         {
             var novoProduto = new ProdutoResponse();
-            
+            var produtoMongo =  await _produtoQuery.GetProdutoMongoByRelationId(request.Id.ToString());
+            var produto = new Produtos();
+
+            produto.Id = request.Id;
+            produto.Descricao = request.Descricao;
+
+            _produtoRepository.Update(produto);
+            await _unitOfWork.CommitAsync();    
 
             return novoProduto;
         }
