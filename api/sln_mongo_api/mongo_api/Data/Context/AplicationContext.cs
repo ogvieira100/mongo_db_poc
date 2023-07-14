@@ -19,11 +19,13 @@ namespace mongo_api.Data.Context
         readonly IProdutoMongoManage _produtoMongoManage;
         readonly IFornecedorMongoManage _fornecedorMongoManage;
         readonly IPedidoMongoManage _pedidoMongoManage;
+        readonly IPedidoItensMongoManage _pedidoItensMongoManage;
         public AplicationContext(DbContextOptions<AplicationContext> options,
             IClientesMongoManage clientesMongoManage,
             IProdutoMongoManage produtoMongoManage,
             IFornecedorMongoManage fornecedorMongoManage,
             IPedidoMongoManage pedidoMongoManage,
+            IPedidoItensMongoManage pedidoItensMongoManage, 
             IEnderecoMongoMange enderecoMongoMange)
          : base(options)
         {
@@ -31,7 +33,8 @@ namespace mongo_api.Data.Context
             _clientesMongoManage = clientesMongoManage;
             _enderecoMongoMange = enderecoMongoMange;
             _fornecedorMongoManage = fornecedorMongoManage;
-            _pedidoMongoManage = pedidoMongoManage; 
+            _pedidoMongoManage = pedidoMongoManage;
+            _pedidoItensMongoManage = pedidoItensMongoManage;   
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -59,17 +62,6 @@ namespace mongo_api.Data.Context
            
             if (ret > 0)
             {
-
-                #region " Pedido Itens "
-
-                var tuplePedidosItens = entrys.Where(x => x.Item2 == typeof(PedidoItens))
-                           .Select(x => new Tuple<EntityState, Pedido>(x.Item1, (x.Item3 as PedidoItens)))
-                           .ToList();
-
-                await _pedidoItensMongoManage.ExecManager(tuplePedidosItens);
-
-                #endregion
-
                 #region " Pedidos "
 
                 var tuplePedidos = entrys.Where(x => x.Item2 == typeof(Pedido))
@@ -79,6 +71,18 @@ namespace mongo_api.Data.Context
                 await _pedidoMongoManage.ExecManager(tuplePedidos);
 
                 #endregion
+
+                #region " Pedido Itens "
+
+                var tuplePedidosItens = entrys.Where(x => x.Item2 == typeof(PedidoItens))
+                           .Select(x => new Tuple<EntityState, PedidoItens>(x.Item1, (x.Item3 as PedidoItens)))
+                           .ToList();
+
+                await _pedidoItensMongoManage.ExecManager(tuplePedidosItens);
+
+                #endregion
+
+               
 
                 #region " Produtos "
 

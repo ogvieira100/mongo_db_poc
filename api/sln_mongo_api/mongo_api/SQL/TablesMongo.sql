@@ -164,11 +164,11 @@ db.createCollection('clientes',{
 });
 
 
-db.createCollection('pedidoItens', {
+db.createCollection('pedidoitens', {
     validator: {
        $jsonSchema: {
           bsonType: "object",
-          required:['qtd','price','produtoId'],
+          required:['relationalId'],
           properties:{
               qtd:{
                   bsonType:'int',
@@ -189,7 +189,7 @@ db.createCollection('pedidoItens', {
               },
               produto:{
                   bsonType: "object",
-                  required: [ "descricao"],
+                  required: [ "description"],
                   properties:{
                       descricao:{
                           bsonType:'string',

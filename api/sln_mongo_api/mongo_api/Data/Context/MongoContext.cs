@@ -208,7 +208,7 @@ namespace mongo_api.Data.Context
 
                     i.MapMember(x => x.Pedido).SetElementName("pedido");
                     i.MapMember(x => x.PedidoId).SetElementName("pedidoId");
-                    i.MapMember(x => x.Price).SetElementName("precoUnitario");
+                    i.MapMember(x => x.Price).SetElementName("price");
 
                     i.MapMember(x => x.Produto).SetElementName("produto");
                     i.MapMember(x => x.ProdutoId).SetElementName("produtoId");

@@ -5,6 +5,7 @@ using mongo_api.Models.Cliente;
 using mongo_api.Models.Fornecedores;
 using mongo_api.Models.Produto;
 using MongoDB.Driver;
+using System.Text.Json.Serialization;
 
 namespace mongo_api.Models.Pedidos
 {
@@ -103,21 +104,33 @@ namespace mongo_api.Models.Pedidos
     }
     public class PedidoItensMongo : BaseMongo
     {
+        [JsonPropertyName("qtd")]
         public int Qtd { get; set; }
+
+        [JsonPropertyName("produtoId")]
         public string ProdutoId { get; set; }
+
+        [JsonPropertyName("produto")]
         public ProdutoMongo Produto { get; set; }
+
+        [JsonPropertyName("price")]
         public decimal Price { get; set; }
+
+        [JsonPropertyName("pedidoId")]
         public string PedidoId { get; set; }
+
+        [JsonPropertyName("pedido")]
         public PedidoMongo Pedido { get; set; }
 
         public PedidoItensMongo()
         {
-            TableName = "pedidoItens";
+            TableName = "pedidoitens";
         }
     }
     public class PedidoItens : Base
     {
 
+     
         public int Qtd { get; set; }
         public virtual Guid ProdutoId { get; set; }
         public virtual Produtos Produto { get; set; }

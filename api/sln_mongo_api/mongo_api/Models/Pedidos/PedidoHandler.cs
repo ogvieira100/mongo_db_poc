@@ -23,17 +23,20 @@ namespace mongo_api.Models.Pedidos
         readonly IBaseRepository<Pedido> _pedidoRepository;
         readonly IBaseRepository<PedidoItens> _pedidoItensRepository;
         readonly IPedidoMongoRepository _pedidoMongoRepository;
+        readonly IPedidoItensMongoRepository _pedidoItensMongoRepository;   
 
         public PedidoHandler(IFornecedorQuery fornedorQuery,
                              IUnitOfWork unitOfWork,
                              IPedidoQuery pedidoQuery,
                              IProdutoQuery produtoQuery,
                              IPedidoMongoRepository pedidoMongoRepository,
+
                              IBaseRepository<Pedido> pedidoRepository,
                              IBaseRepository<PedidoItens> pedidoItensRepository,
                              IBaseRepository<Clientes> clienteRepository,
                              IBaseRepository<Fornecedor> fornecedorRepository,
-                             IClienteQuery clienteQuery)
+                             IClienteQuery clienteQuery,
+                             IPedidoItensMongoRepository pedidoItensMongoRepository)
         {
             _unitOfWork = unitOfWork;
             _clienteQuery = clienteQuery;
@@ -45,6 +48,8 @@ namespace mongo_api.Models.Pedidos
             _clienteRepository = clienteRepository;
             _fornecedorRepository = fornecedorRepository;
             _pedidoMongoRepository = pedidoMongoRepository;
+            _pedidoItensMongoRepository = pedidoItensMongoRepository;
+
         }
         public async Task<PedidoResponse> Handle(PedidoInserirCommand request,
             CancellationToken cancellationToken)
