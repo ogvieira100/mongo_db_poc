@@ -195,23 +195,24 @@ namespace mongo_api.Data.Context
                 });
             }
 
-            if (!BsonClassMap.IsClassMapRegistered(typeof(PedidoItens)))
+            if (!BsonClassMap.IsClassMapRegistered(typeof(PedidoItensMongo)))
             {
-                BsonClassMap.RegisterClassMap<PedidoItens>(i =>
+                BsonClassMap.RegisterClassMap<PedidoItensMongo>(i =>
                 {
                     i.AutoMap();
                     //i.MapIdMember(x => x.Id).SetElementName("id");
                     //i.GetMemberMap(x => x.Id)
                     //.SetIdGenerator(StringObjectIdGenerator.Instance)
                     //.SetSerializer(new StringSerializer(BsonType.ObjectId));
-                    i.MapMember(x => x.Qtd).SetElementName("qtd");
+                    i.MapProperty(x => x.Qtd).SetElementName("qtd");
 
-                    i.MapMember(x => x.Pedido).SetElementName("pedido");
-                    i.MapMember(x => x.PedidoId).SetElementName("pedidoId");
-                    i.MapMember(x => x.Price).SetElementName("price");
+                    
+                    i.MapProperty(x=> x.Pedido).SetElementName("pedido");
+                    i.MapProperty(x => x.PedidoId).SetElementName("pedidoId");
+                    i.MapProperty(x => x.Price).SetElementName("price");
 
-                    i.MapMember(x => x.Produto).SetElementName("produto");
-                    i.MapMember(x => x.ProdutoId).SetElementName("produtoId");
+                    i.MapProperty(x => x.Produto).SetElementName("produto");
+                    i.MapProperty(x => x.ProdutoId).SetElementName("produtoId");
                     //i.MapMember(c => c.Estado).SetSerializer(new EnumSerializer<UF>(BsonType.Int32))
                     //.SetElementName("estado");
                     //i.MapMember(c => c.Logradouro).SetElementName("logradouro");
