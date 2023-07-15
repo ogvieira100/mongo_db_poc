@@ -32,9 +32,18 @@ namespace mongo_api.Models.Fornecedores
             return resp;
         }
 
-        public Task<FornecedorResponse> Handle(FornecedorAtualizarCommand request, CancellationToken cancellationToken)
+        public async Task<FornecedorResponse> Handle(FornecedorAtualizarCommand request, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var resp = new FornecedorResponse();
+
+            var novoFornecedor = new Fornecedor();
+            novoFornecedor.CNPJ = request.CNPJ;
+            novoFornecedor.Id = request.Id; 
+            novoFornecedor.RazaoSocial = request.RazaoSocial;
+
+             _fornecedorRepository.Update(novoFornecedor); 
+            await _unitOfWork.CommitAsync();
+            return resp;
         }
 
         public Task<FornecedorResponse> Handle(FornecedorDeletarCommand request, CancellationToken cancellationToken)
