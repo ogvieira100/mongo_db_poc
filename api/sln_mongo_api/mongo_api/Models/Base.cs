@@ -1,4 +1,7 @@
-﻿namespace mongo_api.Models
+﻿using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace mongo_api.Models
 {
 
     public  class BaseMongo
@@ -14,6 +17,26 @@
     public abstract class Base
     {
 
+        private List<Event> _notificacoes;
+
+        [NotMapped]
+        public IReadOnlyCollection<Event> Notificacoes => _notificacoes?.AsReadOnly();
+
+        public void AdicionarEvento(Event evento)
+        {
+            _notificacoes = _notificacoes ?? new List<Event>();
+            _notificacoes.Add(evento);
+        }
+
+        public void RemoverEvento(Event eventItem)
+        {
+            _notificacoes?.Remove(eventItem);
+        }
+
+        public void LimparEventos()
+        {
+            _notificacoes?.Clear();
+        }
         public Guid Id { get; set; }
 
 
