@@ -4,6 +4,7 @@ using mongo_api.Data.Context;
 using mongo_api.Data.Repository;
 using mongo_api.Models.Cliente;
 using mongo_api.Models.Fornecedores;
+using mongo_api.Models.Notas;
 using mongo_api.Models.Pedidos;
 using mongo_api.Models.Produto;
 using MongoDB.Driver.Core.Operations;
@@ -81,6 +82,12 @@ builder.Services.AddScoped<IPedidoItensMongoRepository, PedidoItensMongoReposito
 //
 builder.Services.AddScoped<IPedidoMongoRepository, PedidoMongoRepository>();
 builder.Services.AddScoped<IPedidoQuery, PedidoQuery>();
+
+//Nota 
+
+builder.Services.AddScoped<INotaMongoRepository, NotaMongoRepository>();
+builder.Services.AddScoped<INotaQuery, NotaQuery>();
+builder.Services.AddScoped<INotaMongoManage, NotaMongoManage>();
 
 //
 

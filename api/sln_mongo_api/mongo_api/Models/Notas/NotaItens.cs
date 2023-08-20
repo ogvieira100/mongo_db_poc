@@ -1,6 +1,6 @@
 ﻿using mongo_api.Models.Produto;
 
-namespace mongo_api.Models
+namespace mongo_api.Models.Notas
 {
 
     public class NotaItensMongo : BaseMongo
@@ -19,7 +19,7 @@ namespace mongo_api.Models
         }
 
     }
-    public class NotaItens:Base
+    public class NotaItens : Base
     {
         public int Qtd { get; set; }
         public virtual Guid ProdutoId { get; set; }

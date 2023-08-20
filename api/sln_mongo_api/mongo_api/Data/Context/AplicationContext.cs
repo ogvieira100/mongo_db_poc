@@ -3,6 +3,7 @@ using mongo_api.Data.Mapping;
 using mongo_api.Data.Repository;
 using mongo_api.Models.Cliente;
 using mongo_api.Models.Fornecedores;
+using mongo_api.Models.Notas;
 using mongo_api.Models.Pedidos;
 using mongo_api.Models.Produto;
 using System.Linq;
@@ -19,12 +20,14 @@ namespace mongo_api.Data.Context
         readonly IProdutoMongoManage _produtoMongoManage;
         readonly IFornecedorMongoManage _fornecedorMongoManage;
         readonly IPedidoMongoManage _pedidoMongoManage;
+        readonly INotaMongoManage _notaMongoManage;
         readonly IPedidoItensMongoManage _pedidoItensMongoManage;
         public AplicationContext(DbContextOptions<AplicationContext> options,
             IClientesMongoManage clientesMongoManage,
             IProdutoMongoManage produtoMongoManage,
             IFornecedorMongoManage fornecedorMongoManage,
             IPedidoMongoManage pedidoMongoManage,
+            INotaMongoManage notaMongoManage,
             IPedidoItensMongoManage pedidoItensMongoManage, 
             IEnderecoMongoMange enderecoMongoMange)
          : base(options)
@@ -34,6 +37,7 @@ namespace mongo_api.Data.Context
             _enderecoMongoMange = enderecoMongoMange;
             _fornecedorMongoManage = fornecedorMongoManage;
             _pedidoMongoManage = pedidoMongoManage;
+            _notaMongoManage = notaMongoManage;
             _pedidoItensMongoManage = pedidoItensMongoManage;   
         }
 
@@ -72,6 +76,16 @@ namespace mongo_api.Data.Context
 
                 #endregion
 
+                #region " Notas "
+
+                var tupleNotas = entrys.Where(x => x.Item2 == typeof(Nota))
+                           .Select(x => new Tuple<EntityState, Nota>(x.Item1, (x.Item3 as Nota)))
+                           .ToList();
+
+                await _notaMongoManage.ExecManager(tupleNotas);
+
+                #endregion
+
                 #region " Pedido Itens "
 
                 var tuplePedidosItens = entrys.Where(x => x.Item2 == typeof(PedidoItens))
@@ -81,8 +95,6 @@ namespace mongo_api.Data.Context
                 await _pedidoItensMongoManage.ExecManager(tuplePedidosItens);
 
                 #endregion
-
-               
 
                 #region " Produtos "
 

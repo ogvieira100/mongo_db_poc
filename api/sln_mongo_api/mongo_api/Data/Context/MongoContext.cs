@@ -1,6 +1,7 @@
 ﻿using mongo_api.Models;
 using mongo_api.Models.Cliente;
 using mongo_api.Models.Fornecedores;
+using mongo_api.Models.Notas;
 using mongo_api.Models.Pedidos;
 using mongo_api.Models.Produto;
 using MongoDB.Bson;

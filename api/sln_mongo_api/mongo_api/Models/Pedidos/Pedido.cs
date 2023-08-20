@@ -10,7 +10,6 @@ namespace mongo_api.Models.Pedidos
 {
     public interface IPedidoMongoManage
     {
-
         Task ExecManager(List<Tuple<EntityState, Pedido>> pedidos);
     }
 
