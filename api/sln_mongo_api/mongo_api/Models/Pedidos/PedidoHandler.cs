@@ -77,7 +77,11 @@ namespace mongo_api.Models.Pedidos
                 novoPedido.PedidoItens.Add(novoPedidoItem);
             }
 
+
+
             await _pedidoRepository.AddAsync(novoPedido);
+
+            novoPedido.AdicionarEvento(new PedidoIncluidoEvent { PedidoId = novoPedido.Id });
             await _unitOfWork.CommitAsync();
             return resp;
         }

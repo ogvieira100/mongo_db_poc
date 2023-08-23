@@ -9,6 +9,7 @@ namespace mongo_api.Models.Notas
         public virtual Guid ClienteId { get; set; }
         public virtual Guid FornecedorId { get; set; }
         public string Observation { get; set; }
+        public string Numero { get; set; }
         public IEnumerable<NotaItensDto> NotaItens { get; set; }
 
         public NotaInserirCommand()

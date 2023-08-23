@@ -77,6 +77,7 @@ namespace mongo_api.Models.Notas
             notaMongo.ClienteId = item2.ClienteId.ToString();
             notaMongo.Cliente = clienteMongo;
             notaMongo.Fornecedor = fornMongo;
+            notaMongo.Numero = item2.Numero;    
 
             foreach (var pedidoItem in item2.NotaItens)
             {

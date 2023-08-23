@@ -71,6 +71,9 @@ namespace mongo_api.Models.Notas
             /*cliente*/
             novaNota.ClienteId = new Guid(cliPedido.RelationalId);
             /*produtos*/
+            novaNota.Numero = request.Numero;
+
+            novaNota.Observation = request.Observation; 
 
             foreach (var pedidoItens in request.NotaItens)
             {
