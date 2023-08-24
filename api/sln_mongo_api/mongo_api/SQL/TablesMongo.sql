@@ -189,7 +189,7 @@ db.createCollection('pedidoitens', {
               },
               produto:{
                   bsonType: "object",
-                  required: [ "description"],
+                  required: [ "descricao"],
                   properties:{
                       descricao:{
                           bsonType:'string',
