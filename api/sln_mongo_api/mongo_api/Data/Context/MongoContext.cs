@@ -125,9 +125,9 @@ namespace mongo_api.Data.Context
                 {
                     i.AutoMap();
                     i.MapMember(x => x.Qtd).SetElementName("qtd");
-                    i.MapMember(x => x.Nota).SetElementName("nota");
+        
                     i.MapMember(x => x.NotaId).SetElementName("notaId");
-                    i.MapMember(x => x.Price).SetElementName("precoUnitario");
+                    i.MapMember(x => x.Price).SetElementName("price");
                     i.MapMember(x => x.Produto).SetElementName("produto");
                     i.MapMember(x => x.ProdutoId).SetElementName("produtoId");
                     i.SetDiscriminator(new NotaItensMongo().TableName);

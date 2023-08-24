@@ -42,7 +42,7 @@ namespace mongo_api.Controllers
         /// <returns></returns>
         [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
-            => Ok(await _mediator.Send(new ClienteDeletarCommand { Id = id }));
+            => Ok(await _mediator.Send(new NotaDeletarCommand { Id = id }));
 
 
         /// <summary>

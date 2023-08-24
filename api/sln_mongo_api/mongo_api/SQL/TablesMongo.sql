@@ -180,7 +180,7 @@ db.createCollection('pedidoitens', {
                 description:'Id da tabela cliente relacional'
             },
               price:{
-                  bsonType:'decimal',
+                  bsonType:'string',
                   description:'valor unitário'
               },
               produtoId:{
@@ -202,11 +202,11 @@ db.createCollection('pedidoitens', {
     }
  })
 
- db.createCollection('notaItens', {
+ db.createCollection('notaitens', {
     validator: {
        $jsonSchema: {
           bsonType: "object",
-          required:['qtd','price','produtoId','relationalId'],
+          required:['relationalId'],
           properties:{
             relationalId:{
 
@@ -219,7 +219,7 @@ db.createCollection('pedidoitens', {
                   description:'quantidade de itens'
               },
               price:{
-                  bsonType:'decimal',
+                  bsonType:'string',
                   description:'valor unitário'
               },
               produtoId:{

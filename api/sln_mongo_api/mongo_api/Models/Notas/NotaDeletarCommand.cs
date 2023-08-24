@@ -5,6 +5,6 @@ namespace mongo_api.Models.Notas
 {
     public class NotaDeletarCommand : IRequest<NotaResponse>
     {
-
+        public Guid Id { get; set; }
     }
 }

@@ -88,6 +88,8 @@ builder.Services.AddScoped<IPedidoQuery, PedidoQuery>();
 builder.Services.AddScoped<INotaMongoRepository, NotaMongoRepository>();
 builder.Services.AddScoped<INotaQuery, NotaQuery>();
 builder.Services.AddScoped<INotaMongoManage, NotaMongoManage>();
+builder.Services.AddScoped<INotaItensMongoManage, NotaItensMongoManage>();
+//
 
 //
 

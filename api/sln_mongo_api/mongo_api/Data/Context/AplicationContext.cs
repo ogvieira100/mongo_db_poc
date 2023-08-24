@@ -23,6 +23,7 @@ namespace mongo_api.Data.Context
         readonly IFornecedorMongoManage _fornecedorMongoManage;
         readonly IPedidoMongoManage _pedidoMongoManage;
         readonly INotaMongoManage _notaMongoManage;
+        readonly INotaItensMongoManage _notaItensMongoManage;
         readonly IPedidoItensMongoManage _pedidoItensMongoManage;
         readonly IMediator _mediator;
         public AplicationContext(DbContextOptions<AplicationContext> options,
@@ -31,11 +32,13 @@ namespace mongo_api.Data.Context
             IFornecedorMongoManage fornecedorMongoManage,
             IPedidoMongoManage pedidoMongoManage,
             INotaMongoManage notaMongoManage,
+            INotaItensMongoManage notaItensMongoManage, 
             IMediator mediator, 
             IPedidoItensMongoManage pedidoItensMongoManage, 
             IEnderecoMongoMange enderecoMongoMange)
          : base(options)
         {
+            _notaItensMongoManage = notaItensMongoManage;
             _produtoMongoManage = produtoMongoManage;
             _clientesMongoManage = clientesMongoManage;
             _enderecoMongoMange = enderecoMongoMange;
@@ -89,6 +92,14 @@ namespace mongo_api.Data.Context
 
                 await _notaMongoManage.ExecManager(tupleNotas);
 
+                #endregion
+
+                #region " Nota Itens "
+                var tupleNotaItens = entrys.Where(x => x.Item2 == typeof(NotaItens))
+                         .Select(x => new Tuple<EntityState, NotaItens>(x.Item1, (x.Item3 as NotaItens)))
+                         .ToList();
+
+                await _notaItensMongoManage.ExecManager(tupleNotaItens);
                 #endregion
 
                 #region " Pedido Itens "
